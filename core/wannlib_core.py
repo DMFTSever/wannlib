@@ -1,4 +1,5 @@
 import numpy as np
+import datetime
 
 def read_wannier90_win(fname='wannier90.win'):
     with open(fname) as instream:
@@ -58,6 +59,20 @@ def read_wannier90_hr(fname='wannier90_hr.dat'):
     #print(np.allclose(hrMatrix,hrnew2))
     
     return weights, rpoints, hrMatrix
+
+def write_wannier90_hr(rpoints, weights, hrMatrix, fname='wannier90_hr.dat'):
+    with open(fname, 'w') as outstream:
+        oustream.write('written on '+str(datetime.datetime.now())+'\n') 
+        for i in range(0,len(weights)):
+            if i%15 == 0:
+                outstream.write('\n')
+            outstream.write(weights[i]+' ')
+        for i range(0, len(rpoints)):
+            for b1 in range(0, hrMatrix.shape[1]):
+                for b2 in range(0, hrMatrix.shape[2]):
+                    outstream.write(rpoints[i,0], rpoints[i,1], rpoints[i,2], b1, b2, np.real(hrMatrix[i, b1, b2]),\
+                                    np.imag(hrMatrix[i, b1, b2]), '\n')
+        
 
 def write_wannier90_hk(fname, kpoints, hk):
     shape=hk.shape
