@@ -63,6 +63,8 @@ def read_wannier90_hr(fname='wannier90_hr.dat'):
 def write_wannier90_hr(rpoints, weights, hrMatrix, fname='wannier90_hr.dat'):
     with open(fname, 'w') as outstream:
         outstream.write('written on '+str(datetime.datetime.now())+'\n') 
+        outstream.write('{:4d}\n'.format(hrMatrix.shape[-1]))
+        outstream.write('{:4d}\n'.format(len(weights)))
         for i in range(1,len(weights)+1):
             outstream.write('{:4d}'.format(weights[i-1])+' ')
             if i%15 == 0:
