@@ -62,17 +62,32 @@ def read_wannier90_hr(fname='wannier90_hr.dat'):
 
 def write_wannier90_hr(rpoints, weights, hrMatrix, fname='wannier90_hr.dat'):
     with open(fname, 'w') as outstream:
-        oustream.write('written on '+str(datetime.datetime.now())+'\n') 
-        for i in range(0,len(weights)):
+        outstream.write('written on '+str(datetime.datetime.now())+'\n') 
+        for i in range(1,len(weights)+1):
+            outstream.write('{:4d}'.format(weights[i-1])+' ')
             if i%15 == 0:
                 outstream.write('\n')
-            outstream.write(weights[i]+' ')
-        for i range(0, len(rpoints)):
+            lasti = i
+        if lasti%15 != 0:
+            outstream.write('\n')
+            
+        for i in range(0, len(rpoints)):
             for b1 in range(0, hrMatrix.shape[1]):
                 for b2 in range(0, hrMatrix.shape[2]):
-                    outstream.write(rpoints[i,0], rpoints[i,1], rpoints[i,2], b1, b2, np.real(hrMatrix[i, b1, b2]),\
-                                    np.imag(hrMatrix[i, b1, b2]), '\n')
-        
+                    outstream.write('{:4d}'.format(int(rpoints[i,0]))) 
+                    outstream.write(' ')
+                    outstream.write('{:4d}'.format(int(rpoints[i,1]))) 
+                    outstream.write(' ')
+                    outstream.write('{:4d}'.format(int(rpoints[i,2]))) 
+                    outstream.write(' ')
+                    outstream.write('{:4d}'.format(b1)) 
+                    outstream.write(' ')
+                    outstream.write('{:4d}'.format(b2)) 
+                    outstream.write(' ')
+                    outstream.write('{:12.8f}'.format(np.real(hrMatrix[i, b1, b2]))) 
+                    outstream.write(' ')
+                    outstream.write('{:12.8f}'.format(np.imag(hrMatrix[i, b1, b2]))) 
+                    outstream.write('\n')
 
 def write_wannier90_hk(fname, kpoints, hk):
     shape=hk.shape
