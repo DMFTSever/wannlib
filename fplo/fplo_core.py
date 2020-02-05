@@ -52,7 +52,7 @@ def read_fplo(fname):
     # NOTE UNSORTED HR (Needs to be resorted such that spin index is varyin slowest!)
     return rbasis, hr 
 
-def fourier_transfrom_hr(hr, kpoints):
+def fourier_transform_hr(hr, kpoints):
     '''
     hr file formated as it is outputed from read_fplo. Therefore kpoints
     have to be cartesian, since fplo prints the R points in cartesian coord.

@@ -27,15 +27,23 @@ def make_wannier90_hk(fnameHk, meshDims, fnameHr):
     core.write_wannier90_hk(fname=fnameHk, hk=hk, kpoints=mesh)
 
 def generate_bandstructure_from_fplo(steps, points, fnameHr):
+    #TODO GO ON HERE fix it!!!
     '''
     Generating a Bandstructure form FPLO outpout.
     '''
     rbasis, hr = fplo.read_fplo(fname=fnameHr)
+    print(rbasis.shape, hr.shape)
+    print(rbasis)
     kbasis = 2.*np.pi*np.linalg.inv(rbasis)
     kpath, cartkpath = core.generate_k_path(steps=steps, points=points, kbasis=kbasis)
     diffs = np.linalg.norm(cartkpath[1:]-cartkpath[0:-1],axis=1)
     dist = np.array([np.sum(diffs[:i]) for i in range(0,len(cartkpath))])
-    ee, ev = np.linalg.eigh(fplo.fourier_transfrom_hr(hr=hr, kpoints=cartkpath))
+    hk = fplo.fourier_transform_hr(hr=hr, kpoints=cartkpath)
+    print(cartkpath.shape, hk.shape)
+    ee, ev = np.linalg.eigh(hk)
+    #IT ALREADY WRONG HERE!
+    print(ee.shape)
+    np.savetxt('test.dat', ee)
 
     return dist, ee, ev
 
