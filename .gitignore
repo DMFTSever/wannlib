@@ -1,5 +1,9 @@
-#files ignored by git
+# files ignored by git
 
-#python complied files
+# python complied files
 *.pyc
 *__pycache__/
+
+# tagfiles
+tags
+.tags
