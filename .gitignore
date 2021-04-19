@@ -2,3 +2,4 @@
 
 #python complied files
 *.pyc
+*__pycache__/
